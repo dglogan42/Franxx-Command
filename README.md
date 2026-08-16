@@ -4,6 +4,8 @@ Offline Android mecha gacha: summon Franxx pilots, build a squad, and hunt a Kla
 
 Package: `com.franxx.command` · minSdk 26 (Android 8) · targetSdk 35 · version 1.0
 
+**Sideload APK:** [FranxxCommand-release.apk](FranxxCommand-release.apk) (Android 8+)
+
 This is an unofficial fan project. It is not affiliated with *Darling in the Franxx* or *Xenoblade Chronicles*.
 
 ## Features

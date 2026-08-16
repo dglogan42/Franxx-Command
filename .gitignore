@@ -6,8 +6,9 @@ PLAY_STORE_SIGNING.txt
 **/*.keystore
 android/release/
 
-# Built packages
+# Built packages (keep the signed sideload APK)
 *.apk
+!FranxxCommand-release.apk
 *.aab
 *.ap_
 *.dex
