@@ -1,0 +1,47 @@
+# Secrets — never commit these
+PLAY_STORE_SIGNING.txt
+**/keystore.properties
+**/*.p12
+**/*.jks
+**/*.keystore
+android/release/
+
+# Built packages
+*.apk
+*.aab
+*.ap_
+*.dex
+
+# Android / Gradle
+.gradle/
+**/build/
+local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+*.hprof
+outputs/
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python / local tooling
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Original Kimi page dump (not app source)
+Mecha Gacha Game Concept - Kimi.html
+Mecha Gacha Game Concept - Kimi_files/

@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0614" />
+  <title>FRANXX COMMAND</title>
+  <style>
+    :root {
+      --bg: #0b0614;
+      --panel: rgba(8, 6, 16, 0.72);
+      --line: rgba(244, 114, 182, 0.28);
+      --pink: #f472b6;
+      --pink-hot: #ec4899;
+      --gold: #facc15;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bot: env(safe-area-inset-bottom, 0px);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      overflow-x: hidden;
+    }
+    body {
+      padding-top: calc(var(--safe-top) + 8px);
+      padding-bottom: calc(var(--safe-bot) + 12px);
+    }
+    .stars {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+    }
+    .star {
+      position: absolute; border-radius: 50%; background: rgba(244, 114, 182, 0.28);
+      animation: pulse 3s ease-in-out infinite;
+    }
+    @keyframes pulse { 50% { opacity: .35; transform: scale(1.4); } }
+    @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+    @keyframes glow { 0%,100% { filter: drop-shadow(0 0 8px #f472b6); } 50% { filter: drop-shadow(0 0 22px #fb7185); } }
+
+    .wrap { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: 0 14px 24px; }
+
+    header {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      padding: 10px 12px; margin-bottom: 14px;
+      background: rgba(0,0,0,.45); border: 1px solid var(--line); border-radius: 16px;
+      backdrop-filter: blur(10px);
+    }
+    .brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .logo {
+      width: 40px; height: 40px; flex: 0 0 40px; border-radius: 50%;
+      background: linear-gradient(135deg, #ec4899, #dc2626);
+      display: grid; place-items: center; font-weight: 800; box-shadow: 0 0 18px rgba(236,72,153,.55);
+    }
+    .title { font-size: 15px; letter-spacing: .12em; color: var(--pink); font-weight: 800; }
+    .sub { font-size: 10px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .stats { display: flex; gap: 6px; }
+    .pill {
+      display: flex; align-items: center; gap: 5px; padding: 6px 10px; border-radius: 999px;
+      background: #000; font-family: ui-monospace, Consolas, monospace; font-weight: 700; font-size: 12px;
+    }
+    .pill.gold { border: 1px solid rgba(250,204,21,.35); color: #fde68a; }
+    .pill.blue { border: 1px solid rgba(96,165,250,.35); color: #93c5fd; }
+
+    .tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+    .tab {
+      border: 1px solid #334155; background: rgba(0,0,0,.4); color: #94a3b8;
+      border-radius: 12px; padding: 10px 6px; font-weight: 800; font-size: 12px; letter-spacing: .06em;
+    }
+    .tab.active {
+      background: #db2777; color: #fff; border-color: transparent;
+      box-shadow: 0 8px 20px rgba(219,39,119,.35);
+    }
+
+    .hidden { display: none !important; }
+    h2.glow {
+      text-align: center; font-size: 22px; margin-bottom: 6px;
+      background: linear-gradient(90deg, #f9a8d4, #c084fc, #60a5fa);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .lead { text-align: center; color: var(--muted); font-size: 13px; margin-bottom: 16px; }
+
+    .banner {
+      position: relative; overflow: hidden; border-radius: 18px; padding: 16px;
+      background: linear-gradient(90deg, rgba(131,24,67,.45), rgba(88,28,135,.4));
+      border: 1px solid rgba(244,114,182,.22); margin-bottom: 16px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .banner-art {
+      width: 72px; height: 72px; border-radius: 14px; flex: 0 0 72px;
+      background: linear-gradient(135deg, #ec4899, #dc2626);
+      display: grid; place-items: center; font-size: 34px;
+      box-shadow: 0 10px 24px rgba(236,72,153,.35);
+    }
+    .kicker { color: var(--pink); font-size: 11px; font-weight: 800; letter-spacing: .14em; }
+    .banner h3 { font-size: 20px; }
+
+    .summon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+    .summon-btn {
+      position: relative; border-radius: 18px; padding: 18px 10px;
+      background: linear-gradient(#1f2937, #111827); border: 1px solid #374151; color: #fff;
+    }
+    .summon-btn:active { transform: scale(.97); }
+    .summon-btn .dice { font-size: 32px; margin-bottom: 8px; }
+    .summon-btn .lbl { font-weight: 800; font-size: 15px; }
+    .summon-btn .cost { color: var(--gold); font-family: ui-monospace, Consolas, monospace; margin-top: 4px; }
+    .badge {
+      position: absolute; top: 8px; right: 8px; background: linear-gradient(90deg, #eab308, #f97316);
+      color: #111; font-size: 10px; font-weight: 800; padding: 3px 7px; border-radius: 999px;
+    }
+
+    .rates { background: rgba(0,0,0,.32); border: 1px solid #1f2937; border-radius: 14px; padding: 12px; }
+    .rates h4 { color: #94a3b8; font-size: 11px; letter-spacing: .1em; margin-bottom: 10px; }
+    .rate { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 12px; }
+    .rate b { width: 64px; }
+    .bar { flex: 1; height: 8px; background: #1f2937; border-radius: 99px; overflow: hidden; }
+    .bar > i { display: block; height: 100%; border-radius: 99px; }
+    .ssr { color: #facc15; } .sr { color: #c084fc; } .r { color: #60a5fa; }
+    .w5 { width: 5%; background: linear-gradient(90deg, #facc15, #f97316); }
+    .w25 { width: 25%; background: linear-gradient(90deg, #c084fc, #ec4899); }
+    .w70 { width: 70%; background: linear-gradient(90deg, #60a5fa, #22d3ee); }
+
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .card {
+      position: relative; border-radius: 16px; padding: 12px; border: 1px solid #334155;
+      background: linear-gradient(#111827, #000); overflow: hidden;
+    }
+    .card.r5 { border-color: rgba(250,204,21,.55); background: linear-gradient(180deg, rgba(202,138,4,.22), rgba(0,0,0,.9)); }
+    .card.r4 { border-color: rgba(168,85,247,.55); background: linear-gradient(180deg, rgba(126,34,206,.22), rgba(0,0,0,.9)); }
+    .card.r3 { border-color: rgba(59,130,246,.55); background: linear-gradient(180deg, rgba(29,78,216,.22), rgba(0,0,0,.9)); }
+    .card .count { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,.55); border-radius: 99px; padding: 2px 8px; font-size: 11px; font-weight: 800; }
+    .card .ico { font-size: 40px; }
+    .card .name { font-weight: 800; font-size: 14px; margin-top: 4px; }
+    .card .unit { color: var(--muted); font-size: 11px; margin-bottom: 4px; }
+    .statrow { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin-top: 8px; }
+    .statrow div { background: rgba(0,0,0,.35); border-radius: 8px; text-align: center; padding: 4px 2px; font-size: 11px; font-family: ui-monospace, Consolas, monospace; }
+    .atk { color: #f87171; } .def { color: #60a5fa; } .spd { color: #4ade80; }
+    .empty { grid-column: 1 / -1; text-align: center; color: #64748b; padding: 36px 8px; }
+
+    .enemy {
+      background: linear-gradient(#111827, #000); border: 1px solid rgba(239,68,68,.25);
+      border-radius: 18px; padding: 16px; margin-bottom: 14px;
+    }
+    .enemy-top { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+    .tgt { color: #f87171; font-size: 11px; font-weight: 800; letter-spacing: .1em; }
+    .hp { font-family: ui-monospace, Consolas, monospace; font-size: 24px; color: #f87171; font-weight: 800; text-align: right; }
+    .hpbar { height: 14px; background: #1f2937; border: 1px solid #374151; border-radius: 99px; overflow: hidden; }
+    .hpbar > i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, #dc2626, #f97316); transition: width .4s; }
+
+    .squad { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+    .battle {
+      width: 100%; border: 0; border-radius: 14px; padding: 14px;
+      background: linear-gradient(90deg, #dc2626, #ea580c); color: #fff; font-weight: 800; font-size: 16px;
+      box-shadow: 0 10px 24px rgba(220,38,38,.3);
+    }
+    .battle:disabled { opacity: .65; }
+    .log {
+      margin-top: 14px; height: 180px; overflow: auto; background: rgba(0,0,0,.4);
+      border: 1px solid #1f2937; border-radius: 14px; padding: 10px; font-family: ui-monospace, Consolas, monospace;
+      font-size: 12px; line-height: 1.55;
+    }
+
+    .overlay, .modal {
+      position: fixed; inset: 0; z-index: 20; display: none; align-items: center; justify-content: center;
+      background: rgba(0,0,0,.82); padding: 18px;
+    }
+    .overlay.show, .modal.show { display: flex; }
+    .overlay { flex-direction: column; text-align: center; }
+    .spin { font-size: 72px; animation: bounce 1s infinite, glow 1.4s infinite; margin-bottom: 16px; }
+    .modal-card {
+      position: relative; width: min(420px, 100%); border-radius: 20px; padding: 22px 18px 16px;
+      background: linear-gradient(#111827, #000); border: 1px solid #374151; overflow: hidden; text-align: center;
+    }
+    .modal-card .glowbg { position: absolute; inset: 0; opacity: .22; pointer-events: none; }
+    .x {
+      position: absolute; top: 8px; right: 12px; background: none; border: 0; color: #94a3b8; font-size: 28px; z-index: 2;
+    }
+    #result-icon { font-size: 68px; margin: 6px 0 8px; }
+    .accept {
+      width: 100%; margin-top: 12px; border: 0; border-radius: 12px; padding: 12px;
+      background: linear-gradient(90deg, #db2777, #7c3aed); color: #fff; font-weight: 800;
+    }
+    .multi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
+    .toast {
+      position: fixed; left: 50%; bottom: calc(24px + var(--safe-bot)); transform: translateX(-50%);
+      background: rgba(0,0,0,.88); border: 1px solid #334155; color: #fff; padding: 10px 16px;
+      border-radius: 999px; opacity: 0; pointer-events: none; transition: opacity .25s; z-index: 40; font-size: 13px;
+    }
+    .toast.show { opacity: 1; }
+  </style>
+</head>
+<body>
+  <div class="stars" id="stars"></div>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">F</div>
+        <div>
+          <div class="title">FRANXX COMMAND</div>
+          <div class="sub">Xenoblade Chronicles × Darling in the Franxx</div>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="pill gold">◆ <span id="currency">5000</span></div>
+        <div class="pill blue">★ <span id="collection-count">0/12</span></div>
+      </div>
+    </header>
+
+    <div class="tabs">
+      <button class="tab active" id="tab-summon" onclick="switchTab('summon')">SUMMON</button>
+      <button class="tab" id="tab-collection" onclick="switchTab('collection')">SQUAD</button>
+      <button class="tab" id="tab-battle" onclick="switchTab('battle')">BATTLE</button>
+    </div>
+
+    <div id="view-summon">
+      <h2 class="glow">STRELIZIA GATE</h2>
+      <p class="lead">Summon legendary Franxx units and their pilots</p>
+      <div class="banner">
+        <div class="banner-art">🌸</div>
+        <div>
+          <div class="kicker">FEATURED RATE UP</div>
+          <h3>Strelizia Apus</h3>
+          <p class="lead" style="text-align:left;margin:4px 0 0">Zero Two &amp; Hiro • SSR Rate: 5%</p>
+        </div>
+      </div>
+      <div class="summon-grid">
+        <button class="summon-btn" onclick="doSummon(1)">
+          <div class="dice">🎲</div>
+          <div class="lbl">Single Summon</div>
+          <div class="cost">◆ 300</div>
+        </button>
+        <button class="summon-btn" onclick="doSummon(10)">
+          <span class="badge">+1 FREE</span>
+          <div class="dice">🎲🎲</div>
+          <div class="lbl">Multi Summon</div>
+          <div class="cost">◆ 3000</div>
+        </button>
+      </div>
+      <div class="rates">
+        <h4>SUMMON RATES</h4>
+        <div class="rate"><b class="ssr">SSR 5★</b><div class="bar"><i class="w5"></i></div><span>5%</span></div>
+        <div class="rate"><b class="sr">SR 4★</b><div class="bar"><i class="w25"></i></div><span>25%</span></div>
+        <div class="rate"><b class="r">R 3★</b><div class="bar"><i class="w70"></i></div><span>70%</span></div>
+      </div>
+    </div>
+
+    <div id="view-collection" class="hidden">
+      <h2 class="glow">YOUR SQUAD</h2>
+      <div id="collection-grid" class="grid"></div>
+    </div>
+
+    <div id="view-battle" class="hidden">
+      <h2 class="glow">KLAXOSAUR HUNT</h2>
+      <div class="enemy">
+        <div class="enemy-top">
+          <div>
+            <div class="tgt">TARGET</div>
+            <div style="font-weight:800">Super Lehmann-class Klaxosaur</div>
+          </div>
+          <div>
+            <div style="color:#94a3b8;font-size:12px;text-align:right">HP</div>
+            <div class="hp" id="enemy-hp">10000</div>
+          </div>
+        </div>
+        <div class="hpbar"><i id="enemy-hp-bar"></i></div>
+      </div>
+      <div id="battle-squad" class="squad"></div>
+      <button class="battle" id="battle-btn" onclick="doBattle()">⚔️ INITIATE BATTLE</button>
+      <div id="battle-log" class="log"><div style="color:#64748b">Battle log initialized...</div></div>
+    </div>
+  </div>
+
+  <div id="summon-overlay" class="overlay">
+    <div class="spin">🌀</div>
+    <div style="font-weight:800;color:#f9a8d4;letter-spacing:.04em">ESTABLISHING PARASITE CONNECTION...</div>
+  </div>
+
+  <div id="result-modal" class="modal">
+    <div class="modal-card">
+      <div id="result-glow" class="glowbg"></div>
+      <button class="x" onclick="closeResult()">×</button>
+      <div id="result-rarity"></div>
+      <div id="result-icon"></div>
+      <h3 id="result-name"></h3>
+      <p id="result-franxx" style="color:#94a3b8;margin:4px 0 12px"></p>
+      <div class="statrow">
+        <div>ATK<br><span class="atk" id="result-atk"></span></div>
+        <div>DEF<br><span class="def" id="result-def"></span></div>
+        <div>SPD<br><span class="spd" id="result-spd"></span></div>
+      </div>
+      <button class="accept" onclick="closeResult()">ACCEPT</button>
+    </div>
+  </div>
+
+  <div id="multi-result-modal" class="modal">
+    <div class="modal-card" style="width:min(520px,100%)">
+      <button class="x" onclick="closeMultiResult()">×</button>
+      <h3 class="glow" style="margin-bottom:10px">SUMMON RESULTS</h3>
+      <div id="multi-result-grid" class="multi-grid"></div>
+      <button class="accept" onclick="closeMultiResult()">COLLECT ALL</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+    const characters = [
+      { id: 'z2', name: 'Zero Two', franxx: 'Strelizia', rarity: 5, icon: '🌸', atk: 95, def: 70, spd: 90 },
+      { id: 'hi', name: 'Hiro', franxx: 'Strelizia', rarity: 5, icon: '💙', atk: 85, def: 75, spd: 80 },
+      { id: 'ic', name: 'Ichigo', franxx: 'Delphinium', rarity: 4, icon: '💚', atk: 75, def: 80, spd: 78 },
+      { id: 'go', name: 'Goro', franxx: 'Delphinium', rarity: 4, icon: '💛', atk: 72, def: 85, spd: 70 },
+      { id: 'mi', name: 'Miku', franxx: 'Genista', rarity: 4, icon: '🩷', atk: 70, def: 65, spd: 82 },
+      { id: 'ze', name: 'Zorome', franxx: 'Genista', rarity: 3, icon: '🧡', atk: 68, def: 60, spd: 75 },
+      { id: 'ko', name: 'Kokoro', franxx: 'Chlorophytum', rarity: 4, icon: '💜', atk: 65, def: 88, spd: 68 },
+      { id: 'fu', name: 'Futoshi', franxx: 'Chlorophytum', rarity: 3, icon: '🤎', atk: 80, def: 55, spd: 60 },
+      { id: 'ik', name: 'Ikuno', franxx: 'Argentea', rarity: 4, icon: '💙', atk: 78, def: 70, spd: 72 },
+      { id: 'mi2', name: 'Mitsuru', franxx: 'Argentea', rarity: 4, icon: '💠', atk: 82, def: 68, spd: 76 },
+      { id: 'na', name: 'Nana', franxx: 'Support', rarity: 3, icon: '📡', atk: 50, def: 60, spd: 65 },
+      { id: 'ha', name: 'Hachi', franxx: 'Command', rarity: 3, icon: '🎯', atk: 55, def: 70, spd: 60 }
+    ];
+
+    let currency = 5000;
+    let collection = {};
+    let enemyHP = 10000;
+    const enemyMaxHP = 10000;
+    const SAVE_KEY = 'franxx_command_v1';
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(SAVE_KEY);
+        if (!raw) return;
+        const data = JSON.parse(raw);
+        if (typeof data.currency === 'number') currency = data.currency;
+        if (data.collection && typeof data.collection === 'object') collection = data.collection;
+        if (typeof data.enemyHP === 'number') enemyHP = data.enemyHP;
+      } catch (e) {}
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(SAVE_KEY, JSON.stringify({ currency, collection, enemyHP }));
+      } catch (e) {}
+    }
+
+    function init() {
+      loadState();
+      createStars();
+      updateUI();
+      updateEnemyHP();
+    }
+
+    function createStars() {
+      const box = document.getElementById('stars');
+      for (let i = 0; i < 28; i++) {
+        const s = document.createElement('div');
+        s.className = 'star';
+        const n = Math.random() * 4 + 2;
+        s.style.width = n + 'px';
+        s.style.height = n + 'px';
+        s.style.left = Math.random() * 100 + '%';
+        s.style.top = Math.random() * 100 + '%';
+        s.style.animationDelay = Math.random() * 3 + 's';
+        s.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        box.appendChild(s);
+      }
+    }
+
+    function updateUI() {
+      document.getElementById('currency').textContent = currency;
+      document.getElementById('collection-count').textContent = Object.keys(collection).length + '/' + characters.length;
+      saveState();
+    }
+
+    function switchTab(tab) {
+      ['summon', 'collection', 'battle'].forEach(function (t) {
+        document.getElementById('view-' + t).classList.toggle('hidden', t !== tab);
+        document.getElementById('tab-' + t).classList.toggle('active', t === tab);
+      });
+      if (tab === 'collection') renderCollection();
+      if (tab === 'battle') renderBattleSquad();
+    }
+
+    function getRarityPool() {
+      const roll = Math.random() * 100;
+      if (roll < 5) return characters.filter(function (c) { return c.rarity === 5; });
+      if (roll < 30) return characters.filter(function (c) { return c.rarity === 4; });
+      return characters.filter(function (c) { return c.rarity === 3; });
+    }
+
+    function pickChar() {
+      const pool = getRarityPool();
+      return pool[Math.floor(Math.random() * pool.length)];
+    }
+
+    function showOverlay(on) {
+      document.getElementById('summon-overlay').classList.toggle('show', on);
+    }
+
+    function doSummon(count) {
+      const cost = count === 1 ? 300 : 3000;
+      if (currency < cost) {
+        showToast('Not enough Magma Energy! ◆');
+        return;
+      }
+      currency -= cost;
+      updateUI();
+      showOverlay(true);
+      setTimeout(function () {
+        showOverlay(false);
+        if (count === 1) {
+          showResult(pickChar());
+        } else {
+          const results = [];
+          for (let i = 0; i < 11; i++) results.push(pickChar());
+          showMultiResult(results);
+        }
+      }, count === 1 ? 1500 : 2000);
+    }
+
+    function rarityMeta(r) {
+      if (r === 5) return { text: 'SSR', color: '#facc15', glow: 'linear-gradient(#facc15, transparent)' };
+      if (r === 4) return { text: 'SR', color: '#c084fc', glow: 'linear-gradient(#a855f7, transparent)' };
+      return { text: 'R', color: '#60a5fa', glow: 'linear-gradient(#3b82f6, transparent)' };
+    }
+
+    function showResult(char) {
+      addToCollection(char);
+      const meta = rarityMeta(char.rarity);
+      document.getElementById('result-modal').classList.add('show');
+      document.getElementById('result-rarity').textContent = meta.text + ' ' + '★'.repeat(char.rarity);
+      document.getElementById('result-rarity').style.color = meta.color;
+      document.getElementById('result-rarity').style.fontWeight = '800';
+      document.getElementById('result-rarity').style.letterSpacing = '.16em';
+      document.getElementById('result-icon').textContent = char.icon;
+      document.getElementById('result-name').textContent = char.name;
+      document.getElementById('result-franxx').textContent = char.franxx + ' Unit';
+      document.getElementById('result-atk').textContent = char.atk;
+      document.getElementById('result-def').textContent = char.def;
+      document.getElementById('result-spd').textContent = char.spd;
+      document.getElementById('result-glow').style.background = meta.glow;
+    }
+
+    function showMultiResult(results) {
+      results.forEach(addToCollection);
+      document.getElementById('multi-result-modal').classList.add('show');
+      const grid = document.getElementById('multi-result-grid');
+      grid.innerHTML = '';
+      results.forEach(function (char) {
+        const div = document.createElement('div');
+        div.className = 'card r' + char.rarity;
+        div.innerHTML = '<div class="ico" style="font-size:28px">' + char.icon + '</div>' +
+          '<div class="name" style="font-size:11px">' + char.name + '</div>' +
+          '<div class="unit">' + '★'.repeat(char.rarity) + '</div>';
+        grid.appendChild(div);
+      });
+    }
+
+    function closeResult() {
+      document.getElementById('result-modal').classList.remove('show');
+    }
+    function closeMultiResult() {
+      document.getElementById('multi-result-modal').classList.remove('show');
+    }
+
+    function addToCollection(char) {
+      if (!collection[char.id]) collection[char.id] = Object.assign({}, char, { count: 1 });
+      else collection[char.id].count++;
+      updateUI();
+    }
+
+    function renderCollection() {
+      const grid = document.getElementById('collection-grid');
+      const units = Object.values(collection);
+      if (!units.length) {
+        grid.innerHTML = '<div class="empty">No units summoned yet. Head to the Summon tab!</div>';
+        return;
+      }
+      grid.innerHTML = '';
+      units.forEach(function (char) {
+        const div = document.createElement('div');
+        div.className = 'card r' + char.rarity;
+        div.innerHTML =
+          '<div class="count">×' + char.count + '</div>' +
+          '<div class="ico">' + char.icon + '</div>' +
+          '<div class="name">' + char.name + '</div>' +
+          '<div class="unit">' + char.franxx + '</div>' +
+          '<div class="' + (char.rarity === 5 ? 'ssr' : char.rarity === 4 ? 'sr' : 'r') + '">' + '★'.repeat(char.rarity) + '</div>' +
+          '<div class="statrow"><div class="atk">' + char.atk + '</div><div class="def">' + char.def + '</div><div class="spd">' + char.spd + '</div></div>';
+        grid.appendChild(div);
+      });
+    }
+
+    function renderBattleSquad() {
+      const squad = Object.values(collection).slice(0, 3);
+      const box = document.getElementById('battle-squad');
+      if (!squad.length) {
+        box.innerHTML = '<div class="empty" style="grid-column:1/-1;padding:16px">Summon units to form a squad!</div>';
+        return;
+      }
+      box.innerHTML = '';
+      squad.forEach(function (char) {
+        const div = document.createElement('div');
+        div.className = 'card r' + char.rarity;
+        div.innerHTML = '<div class="ico" style="font-size:28px">' + char.icon + '</div><div class="name" style="font-size:12px">' + char.name + '</div><div class="unit">' + char.franxx + '</div>';
+        box.appendChild(div);
+      });
+    }
+
+    function doBattle() {
+      const squad = Object.values(collection).slice(0, 3);
+      if (!squad.length) { showToast('Summon units first!'); return; }
+      const btn = document.getElementById('battle-btn');
+      btn.disabled = true;
+      btn.textContent = '⚔️ BATTLE IN PROGRESS...';
+      const log = document.getElementById('battle-log');
+      log.innerHTML = '<div style="color:#64748b">Battle started! Squad engaging Klaxosaur...</div>';
+      let turn = 0;
+      const maxTurns = 20;
+      const moves = ['Stampede FEVER!', 'Wing Blast!', 'Magma Cannon!', 'Parasite Sync Strike!', 'Franxx Overdrive!'];
+
+      function nextTurn() {
+        if (enemyHP <= 0 || turn >= maxTurns) {
+          if (enemyHP <= 0) {
+            log.innerHTML += '<div style="color:#facc15;font-weight:800">🎉 VICTORY! Klaxosaur defeated!</div>';
+            const reward = 500 + Math.floor(Math.random() * 500);
+            currency += reward;
+            showToast('+' + reward + ' ◆ Magma Energy!');
+            enemyHP = enemyMaxHP;
+            updateUI();
+          } else {
+            log.innerHTML += '<div style="color:#f87171;font-weight:800">💀 DEFEAT... The Klaxosaur survives.</div>';
+          }
+          btn.disabled = false;
+          btn.textContent = '⚔️ INITIATE BATTLE';
+          updateEnemyHP();
+          saveState();
+          return;
+        }
+        turn++;
+        const char = squad[turn % squad.length];
+        const dmg = Math.floor((char.atk * 2 + Math.random() * 20) * (1 + char.rarity * 0.2));
+        enemyHP = Math.max(0, enemyHP - dmg);
+        const move = moves[Math.floor(Math.random() * moves.length)];
+        log.innerHTML += '<div><span style="color:#f9a8d4">' + char.name + '</span> uses <span style="color:#fde047">' + move + '</span> → <span style="color:#f87171">-' + dmg + '</span> HP</div>';
+        log.scrollTop = log.scrollHeight;
+        updateEnemyHP();
+        setTimeout(nextTurn, 600);
+      }
+      setTimeout(nextTurn, 500);
+    }
+
+    function updateEnemyHP() {
+      document.getElementById('enemy-hp').textContent = enemyHP;
+      document.getElementById('enemy-hp-bar').style.width = ((enemyHP / enemyMaxHP) * 100) + '%';
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(function () { t.classList.remove('show'); }, 2000);
+    }
+
+    window.androidBack = function () {
+      if (document.getElementById('result-modal').classList.contains('show')) { closeResult(); return true; }
+      if (document.getElementById('multi-result-modal').classList.contains('show')) { closeMultiResult(); return true; }
+      if (document.getElementById('summon-overlay').classList.contains('show')) return true;
+      return false;
+    };
+
+    init();
+  </script>
+</body>
+</html>
