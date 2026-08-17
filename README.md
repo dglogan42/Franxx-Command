@@ -1,8 +1,8 @@
 # FRANXX COMMAND
 
-Offline Android mecha gacha: summon Franxx pilots, build a squad, and hunt a Klaxosaur.
+Offline Android mecha gacha: summon Franxx pilots, set a 3-unit squad, and clear an 8-hunt Klaxosaur campaign.
 
-Package: `com.franxx.command` · minSdk 26 (Android 8) · targetSdk 35 · version 1.0
+Package: `com.franxx.command` · minSdk 26 (Android 8) · targetSdk 35 · version 1.1
 
 **Sideload APK:** [FranxxCommand-release.apk](FranxxCommand-release.apk) (Android 8+)
 
@@ -10,9 +10,11 @@ This is an unofficial fan project. It is not affiliated with *Darling in the Fra
 
 ## Features
 
+- **Hunt** — 8-stage campaign from Lehmann-class to VIRM Mothership. Clear one to unlock the next.
 - **Summon** — Strelizia Gate single (◆300) or multi (◆3000, +1 free). Rates: SSR 5% / SR 25% / R 70%
-- **Squad** — collected pilots with ATK / DEF / SPD
-- **Battle** — Klaxosaur Hunt using your top 3 units
+- **Squad** — deploy 3 pilots, upgrade with duplicates (max Lv5), pair both pilots of a Franxx for +20% ATK
+- **Shop** — daily login ration, daily magma crate, scrap extra copies
+- Turn-based hunt combat (your squad and the target trade hits)
 - Progress saved on-device (`localStorage`). No internet permission.
 
 ## Project layout
@@ -31,6 +33,8 @@ play-store/icon-512.png           Play Console high-res icon
 - JDK 17
 - Android SDK (platform 35, build-tools)
 - `ANDROID_HOME` / `ANDROID_SDK_ROOT` set, or `android/local.properties` with `sdk.dir=`
+
+Gradle resolves Android libraries from **Google Maven** then **Maven Central** (`settings.gradle` → `dependencyResolutionManagement.repositories`). Do not add JCenter.
 
 ## Build
 

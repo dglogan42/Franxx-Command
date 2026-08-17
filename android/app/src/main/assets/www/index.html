@@ -8,7 +8,7 @@
   <style>
     :root {
       --bg: #0b0614;
-      --panel: rgba(8, 6, 16, 0.72);
+      --panel: rgba(8, 6, 16, 0.78);
       --line: rgba(244, 114, 182, 0.28);
       --pink: #f472b6;
       --pink-hot: #ec4899;
@@ -20,35 +20,24 @@
     }
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     html, body {
-      width: 100%;
-      min-height: 100%;
-      background: var(--bg);
-      color: var(--text);
+      width: 100%; min-height: 100%;
+      background: var(--bg); color: var(--text);
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
       overflow-x: hidden;
     }
-    body {
-      padding-top: calc(var(--safe-top) + 8px);
-      padding-bottom: calc(var(--safe-bot) + 12px);
-    }
-    .stars {
-      position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
-    }
-    .star {
-      position: absolute; border-radius: 50%; background: rgba(244, 114, 182, 0.28);
-      animation: pulse 3s ease-in-out infinite;
-    }
+    body { padding-top: calc(var(--safe-top) + 8px); padding-bottom: calc(var(--safe-bot) + 72px); }
+    button { font-family: inherit; cursor: pointer; }
+    button:disabled { opacity: .55; cursor: default; }
+    .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .star { position: absolute; border-radius: 50%; background: rgba(244, 114, 182, 0.28); animation: pulse 3s ease-in-out infinite; }
     @keyframes pulse { 50% { opacity: .35; transform: scale(1.4); } }
     @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
     @keyframes glow { 0%,100% { filter: drop-shadow(0 0 8px #f472b6); } 50% { filter: drop-shadow(0 0 22px #fb7185); } }
-
     .wrap { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: 0 14px 24px; }
-
     header {
       display: flex; align-items: center; justify-content: space-between; gap: 10px;
-      padding: 10px 12px; margin-bottom: 14px;
+      padding: 10px 12px; margin-bottom: 12px;
       background: rgba(0,0,0,.45); border: 1px solid var(--line); border-radius: 16px;
-      backdrop-filter: blur(10px);
     }
     .brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
     .logo {
@@ -65,27 +54,15 @@
     }
     .pill.gold { border: 1px solid rgba(250,204,21,.35); color: #fde68a; }
     .pill.blue { border: 1px solid rgba(96,165,250,.35); color: #93c5fd; }
-
-    .tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
-    .tab {
-      border: 1px solid #334155; background: rgba(0,0,0,.4); color: #94a3b8;
-      border-radius: 12px; padding: 10px 6px; font-weight: 800; font-size: 12px; letter-spacing: .06em;
-    }
-    .tab.active {
-      background: #db2777; color: #fff; border-color: transparent;
-      box-shadow: 0 8px 20px rgba(219,39,119,.35);
-    }
-
     .hidden { display: none !important; }
     h2.glow {
       text-align: center; font-size: 22px; margin-bottom: 6px;
       background: linear-gradient(90deg, #f9a8d4, #c084fc, #60a5fa);
       -webkit-background-clip: text; background-clip: text; color: transparent;
     }
-    .lead { text-align: center; color: var(--muted); font-size: 13px; margin-bottom: 16px; }
-
+    .lead { text-align: center; color: var(--muted); font-size: 13px; margin-bottom: 14px; }
     .banner {
-      position: relative; overflow: hidden; border-radius: 18px; padding: 16px;
+      overflow: hidden; border-radius: 18px; padding: 16px;
       background: linear-gradient(90deg, rgba(131,24,67,.45), rgba(88,28,135,.4));
       border: 1px solid rgba(244,114,182,.22); margin-bottom: 16px;
       display: flex; align-items: center; gap: 14px;
@@ -94,11 +71,9 @@
       width: 72px; height: 72px; border-radius: 14px; flex: 0 0 72px;
       background: linear-gradient(135deg, #ec4899, #dc2626);
       display: grid; place-items: center; font-size: 34px;
-      box-shadow: 0 10px 24px rgba(236,72,153,.35);
     }
     .kicker { color: var(--pink); font-size: 11px; font-weight: 800; letter-spacing: .14em; }
-    .banner h3 { font-size: 20px; }
-
+    .banner h3 { font-size: 18px; }
     .summon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
     .summon-btn {
       position: relative; border-radius: 18px; padding: 18px 10px;
@@ -112,7 +87,6 @@
       position: absolute; top: 8px; right: 8px; background: linear-gradient(90deg, #eab308, #f97316);
       color: #111; font-size: 10px; font-weight: 800; padding: 3px 7px; border-radius: 999px;
     }
-
     .rates { background: rgba(0,0,0,.32); border: 1px solid #1f2937; border-radius: 14px; padding: 12px; }
     .rates h4 { color: #94a3b8; font-size: 11px; letter-spacing: .1em; margin-bottom: 10px; }
     .rate { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 12px; }
@@ -123,47 +97,78 @@
     .w5 { width: 5%; background: linear-gradient(90deg, #facc15, #f97316); }
     .w25 { width: 25%; background: linear-gradient(90deg, #c084fc, #ec4899); }
     .w70 { width: 70%; background: linear-gradient(90deg, #60a5fa, #22d3ee); }
-
     .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .card {
       position: relative; border-radius: 16px; padding: 12px; border: 1px solid #334155;
-      background: linear-gradient(#111827, #000); overflow: hidden;
+      background: linear-gradient(#111827, #000); overflow: hidden; text-align: left;
     }
     .card.r5 { border-color: rgba(250,204,21,.55); background: linear-gradient(180deg, rgba(202,138,4,.22), rgba(0,0,0,.9)); }
     .card.r4 { border-color: rgba(168,85,247,.55); background: linear-gradient(180deg, rgba(126,34,206,.22), rgba(0,0,0,.9)); }
     .card.r3 { border-color: rgba(59,130,246,.55); background: linear-gradient(180deg, rgba(29,78,216,.22), rgba(0,0,0,.9)); }
+    .card.on { outline: 2px solid #f472b6; }
+    .card.lock { opacity: .42; }
     .card .count { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,.55); border-radius: 99px; padding: 2px 8px; font-size: 11px; font-weight: 800; }
-    .card .ico { font-size: 40px; }
+    .card .ico { font-size: 36px; }
     .card .name { font-weight: 800; font-size: 14px; margin-top: 4px; }
     .card .unit { color: var(--muted); font-size: 11px; margin-bottom: 4px; }
     .statrow { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin-top: 8px; }
     .statrow div { background: rgba(0,0,0,.35); border-radius: 8px; text-align: center; padding: 4px 2px; font-size: 11px; font-family: ui-monospace, Consolas, monospace; }
     .atk { color: #f87171; } .def { color: #60a5fa; } .spd { color: #4ade80; }
-    .empty { grid-column: 1 / -1; text-align: center; color: #64748b; padding: 36px 8px; }
-
+    .empty { grid-column: 1 / -1; text-align: center; color: #64748b; padding: 28px 8px; }
+    .mini { width: 100%; margin-top: 8px; border: 0; border-radius: 10px; padding: 8px; font-weight: 800; font-size: 12px; background: #312e81; color: #fff; }
+    .hunt-list { display: flex; flex-direction: column; gap: 10px; }
+    .hunt {
+      border-radius: 16px; padding: 14px; border: 1px solid #334155;
+      background: linear-gradient(#111827, #050508); text-align: left; color: inherit;
+    }
+    .hunt.open { border-color: rgba(244,114,182,.45); }
+    .hunt.done { border-color: rgba(74,222,128,.35); }
+    .hunt-top { display: flex; justify-content: space-between; gap: 8px; align-items: flex-start; }
+    .stage { font-size: 10px; letter-spacing: .14em; color: var(--pink); font-weight: 800; }
+    .reward { font-size: 11px; color: #fde68a; font-family: ui-monospace, Consolas, monospace; }
+    .hunt h3 { font-size: 16px; margin: 4px 0; }
     .enemy {
       background: linear-gradient(#111827, #000); border: 1px solid rgba(239,68,68,.25);
       border-radius: 18px; padding: 16px; margin-bottom: 14px;
     }
     .enemy-top { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
     .tgt { color: #f87171; font-size: 11px; font-weight: 800; letter-spacing: .1em; }
-    .hp { font-family: ui-monospace, Consolas, monospace; font-size: 24px; color: #f87171; font-weight: 800; text-align: right; }
+    .hp { font-family: ui-monospace, Consolas, monospace; font-size: 22px; color: #f87171; font-weight: 800; text-align: right; }
     .hpbar { height: 14px; background: #1f2937; border: 1px solid #374151; border-radius: 99px; overflow: hidden; }
     .hpbar > i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, #dc2626, #f97316); transition: width .4s; }
-
     .squad { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px; }
     .battle {
       width: 100%; border: 0; border-radius: 14px; padding: 14px;
       background: linear-gradient(90deg, #dc2626, #ea580c); color: #fff; font-weight: 800; font-size: 16px;
       box-shadow: 0 10px 24px rgba(220,38,38,.3);
     }
-    .battle:disabled { opacity: .65; }
+    .ghost {
+      width: 100%; border: 1px solid #334155; border-radius: 14px; padding: 12px;
+      background: transparent; color: #cbd5e1; font-weight: 800; margin-top: 8px;
+    }
     .log {
       margin-top: 14px; height: 180px; overflow: auto; background: rgba(0,0,0,.4);
       border: 1px solid #1f2937; border-radius: 14px; padding: 10px; font-family: ui-monospace, Consolas, monospace;
       font-size: 12px; line-height: 1.55;
     }
-
+    .shop-grid { display: grid; gap: 10px; }
+    .shop {
+      border-radius: 16px; padding: 14px; border: 1px solid #334155;
+      background: linear-gradient(#111827, #000); display: flex; justify-content: space-between; gap: 12px; align-items: center;
+    }
+    .shop h3 { font-size: 15px; }
+    .buy { border: 0; border-radius: 12px; padding: 10px 14px; background: linear-gradient(90deg, #db2777, #7c3aed); color: #fff; font-weight: 800; }
+    .dock {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 10;
+      padding: 8px 10px calc(8px + var(--safe-bot));
+      background: rgba(8, 6, 16, .92); border-top: 1px solid var(--line);
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+    }
+    .tab {
+      border: 1px solid #334155; background: rgba(0,0,0,.4); color: #94a3b8;
+      border-radius: 12px; padding: 8px 4px; font-weight: 800; font-size: 11px; letter-spacing: .04em;
+    }
+    .tab.active { background: #db2777; color: #fff; border-color: transparent; }
     .overlay, .modal {
       position: fixed; inset: 0; z-index: 20; display: none; align-items: center; justify-content: center;
       background: rgba(0,0,0,.82); padding: 18px;
@@ -176,9 +181,7 @@
       background: linear-gradient(#111827, #000); border: 1px solid #374151; overflow: hidden; text-align: center;
     }
     .modal-card .glowbg { position: absolute; inset: 0; opacity: .22; pointer-events: none; }
-    .x {
-      position: absolute; top: 8px; right: 12px; background: none; border: 0; color: #94a3b8; font-size: 28px; z-index: 2;
-    }
+    .x { position: absolute; top: 8px; right: 12px; background: none; border: 0; color: #94a3b8; font-size: 28px; z-index: 2; }
     #result-icon { font-size: 68px; margin: 6px 0 8px; }
     .accept {
       width: 100%; margin-top: 12px; border: 0; border-radius: 12px; padding: 12px;
@@ -186,11 +189,13 @@
     }
     .multi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
     .toast {
-      position: fixed; left: 50%; bottom: calc(24px + var(--safe-bot)); transform: translateX(-50%);
+      position: fixed; left: 50%; bottom: calc(86px + var(--safe-bot)); transform: translateX(-50%);
       background: rgba(0,0,0,.88); border: 1px solid #334155; color: #fff; padding: 10px 16px;
       border-radius: 999px; opacity: 0; pointer-events: none; transition: opacity .25s; z-index: 40; font-size: 13px;
     }
     .toast.show { opacity: 1; }
+    .hint { font-size: 12px; color: var(--muted); margin: 0 0 10px; text-align: center; }
+    .pair { font-size: 12px; color: #f9a8d4; text-align: center; margin-bottom: 10px; }
   </style>
 </head>
 <body>
@@ -201,7 +206,7 @@
         <div class="logo">F</div>
         <div>
           <div class="title">FRANXX COMMAND</div>
-          <div class="sub">Xenoblade Chronicles × Darling in the Franxx</div>
+          <div class="sub">Offline mecha gacha · Plant 13</div>
         </div>
       </div>
       <div class="stats">
@@ -210,21 +215,21 @@
       </div>
     </header>
 
-    <div class="tabs">
-      <button class="tab active" id="tab-summon" onclick="switchTab('summon')">SUMMON</button>
-      <button class="tab" id="tab-collection" onclick="switchTab('collection')">SQUAD</button>
-      <button class="tab" id="tab-battle" onclick="switchTab('battle')">BATTLE</button>
+    <div id="view-hunt">
+      <h2 class="glow">KLAXOSAUR HUNT</h2>
+      <p class="lead">Clear the campaign. Pair both pilots of a Franxx for a sync bonus.</p>
+      <div id="hunt-list" class="hunt-list"></div>
     </div>
 
-    <div id="view-summon">
+    <div id="view-summon" class="hidden">
       <h2 class="glow">STRELIZIA GATE</h2>
-      <p class="lead">Summon legendary Franxx units and their pilots</p>
+      <p class="lead">Summon Franxx units and their pilots</p>
       <div class="banner">
         <div class="banner-art">🌸</div>
         <div>
           <div class="kicker">FEATURED RATE UP</div>
           <h3>Strelizia Apus</h3>
-          <p class="lead" style="text-align:left;margin:4px 0 0">Zero Two &amp; Hiro • SSR Rate: 5%</p>
+          <p class="lead" style="text-align:left;margin:4px 0 0">Zero Two &amp; Hiro • SSR 5%</p>
         </div>
       </div>
       <div class="summon-grid">
@@ -248,31 +253,72 @@
       </div>
     </div>
 
-    <div id="view-collection" class="hidden">
+    <div id="view-squad" class="hidden">
       <h2 class="glow">YOUR SQUAD</h2>
+      <p class="hint">Tap a unit to set the hunt team (max 3). Upgrade spends a duplicate.</p>
+      <div class="pair" id="pair-line"></div>
       <div id="collection-grid" class="grid"></div>
     </div>
 
+    <div id="view-shop" class="hidden">
+      <h2 class="glow">PLANT COMMISSARY</h2>
+      <p class="lead">Daily magma and extra copies for upgrades.</p>
+      <div class="shop-grid">
+        <div class="shop">
+          <div>
+            <div class="kicker">DAILY</div>
+            <h3>Login ration</h3>
+            <p class="unit">◆ 600 once per day</p>
+          </div>
+          <button class="buy" id="daily-btn" onclick="claimDaily()">CLAIM</button>
+        </div>
+        <div class="shop">
+          <div>
+            <div class="kicker">PACK</div>
+            <h3>Magma crate</h3>
+            <p class="unit">Free ◆ 1500 once per day</p>
+          </div>
+          <button class="buy" onclick="buyCrate()">TAKE</button>
+        </div>
+        <div class="shop">
+          <div>
+            <div class="kicker">RECYCLE</div>
+            <h3>Scrap a duplicate</h3>
+            <p class="unit">Sell one extra copy for ◆ 120</p>
+          </div>
+          <button class="buy" onclick="scrapOne()">SCRAP</button>
+        </div>
+      </div>
+    </div>
+
     <div id="view-battle" class="hidden">
-      <h2 class="glow">KLAXOSAUR HUNT</h2>
+      <h2 class="glow" id="battle-title">HUNT</h2>
       <div class="enemy">
         <div class="enemy-top">
           <div>
             <div class="tgt">TARGET</div>
-            <div style="font-weight:800">Super Lehmann-class Klaxosaur</div>
+            <div style="font-weight:800" id="enemy-name">Klaxosaur</div>
           </div>
           <div>
             <div style="color:#94a3b8;font-size:12px;text-align:right">HP</div>
-            <div class="hp" id="enemy-hp">10000</div>
+            <div class="hp" id="enemy-hp">0</div>
           </div>
         </div>
         <div class="hpbar"><i id="enemy-hp-bar"></i></div>
       </div>
       <div id="battle-squad" class="squad"></div>
       <button class="battle" id="battle-btn" onclick="doBattle()">⚔️ INITIATE BATTLE</button>
+      <button class="ghost" onclick="leaveBattle()">← BACK TO HUNTS</button>
       <div id="battle-log" class="log"><div style="color:#64748b">Battle log initialized...</div></div>
     </div>
   </div>
+
+  <nav class="dock">
+    <button class="tab active" id="tab-hunt" onclick="switchTab('hunt')">HUNT</button>
+    <button class="tab" id="tab-summon" onclick="switchTab('summon')">SUMMON</button>
+    <button class="tab" id="tab-squad" onclick="switchTab('squad')">SQUAD</button>
+    <button class="tab" id="tab-shop" onclick="switchTab('shop')">SHOP</button>
+  </nav>
 
   <div id="summon-overlay" class="overlay">
     <div class="spin">🌀</div>
@@ -308,41 +354,77 @@
   <div id="toast" class="toast"></div>
 
   <script>
-    const characters = [
-      { id: 'z2', name: 'Zero Two', franxx: 'Strelizia', rarity: 5, icon: '🌸', atk: 95, def: 70, spd: 90 },
-      { id: 'hi', name: 'Hiro', franxx: 'Strelizia', rarity: 5, icon: '💙', atk: 85, def: 75, spd: 80 },
-      { id: 'ic', name: 'Ichigo', franxx: 'Delphinium', rarity: 4, icon: '💚', atk: 75, def: 80, spd: 78 },
-      { id: 'go', name: 'Goro', franxx: 'Delphinium', rarity: 4, icon: '💛', atk: 72, def: 85, spd: 70 },
-      { id: 'mi', name: 'Miku', franxx: 'Genista', rarity: 4, icon: '🩷', atk: 70, def: 65, spd: 82 },
-      { id: 'ze', name: 'Zorome', franxx: 'Genista', rarity: 3, icon: '🧡', atk: 68, def: 60, spd: 75 },
-      { id: 'ko', name: 'Kokoro', franxx: 'Chlorophytum', rarity: 4, icon: '💜', atk: 65, def: 88, spd: 68 },
-      { id: 'fu', name: 'Futoshi', franxx: 'Chlorophytum', rarity: 3, icon: '🤎', atk: 80, def: 55, spd: 60 },
-      { id: 'ik', name: 'Ikuno', franxx: 'Argentea', rarity: 4, icon: '💙', atk: 78, def: 70, spd: 72 },
-      { id: 'mi2', name: 'Mitsuru', franxx: 'Argentea', rarity: 4, icon: '💠', atk: 82, def: 68, spd: 76 },
-      { id: 'na', name: 'Nana', franxx: 'Support', rarity: 3, icon: '📡', atk: 50, def: 60, spd: 65 },
-      { id: 'ha', name: 'Hachi', franxx: 'Command', rarity: 3, icon: '🎯', atk: 55, def: 70, spd: 60 }
+    const CHARACTERS = [
+      { id: 'z2', name: 'Zero Two', franxx: 'Strelizia', pair: 'hi', rarity: 5, icon: '🌸', atk: 95, def: 70, spd: 90 },
+      { id: 'hi', name: 'Hiro', franxx: 'Strelizia', pair: 'z2', rarity: 5, icon: '💙', atk: 85, def: 75, spd: 80 },
+      { id: 'ic', name: 'Ichigo', franxx: 'Delphinium', pair: 'go', rarity: 4, icon: '💚', atk: 75, def: 80, spd: 78 },
+      { id: 'go', name: 'Goro', franxx: 'Delphinium', pair: 'ic', rarity: 4, icon: '💛', atk: 72, def: 85, spd: 70 },
+      { id: 'mi', name: 'Miku', franxx: 'Genista', pair: 'ze', rarity: 4, icon: '🩷', atk: 70, def: 65, spd: 82 },
+      { id: 'ze', name: 'Zorome', franxx: 'Genista', pair: 'mi', rarity: 3, icon: '🧡', atk: 68, def: 60, spd: 75 },
+      { id: 'ko', name: 'Kokoro', franxx: 'Chlorophytum', pair: 'fu', rarity: 4, icon: '💜', atk: 65, def: 88, spd: 68 },
+      { id: 'fu', name: 'Futoshi', franxx: 'Chlorophytum', pair: 'ko', rarity: 3, icon: '🤎', atk: 80, def: 55, spd: 60 },
+      { id: 'ik', name: 'Ikuno', franxx: 'Argentea', pair: 'mt', rarity: 4, icon: '💙', atk: 78, def: 70, spd: 72 },
+      { id: 'mt', name: 'Mitsuru', franxx: 'Argentea', pair: 'ik', rarity: 4, icon: '💠', atk: 82, def: 68, spd: 76 },
+      { id: 'na', name: 'Nana', franxx: 'Support', pair: null, rarity: 3, icon: '📡', atk: 50, def: 60, spd: 65 },
+      { id: 'ha', name: 'Hachi', franxx: 'Command', pair: null, rarity: 3, icon: '🎯', atk: 55, def: 70, spd: 60 }
     ];
+
+    const HUNTS = [
+      { id: 'lehmann', name: 'Lehmann-class', blurb: 'Outer Garden scout.', hp: 2800, atk: 18, reward: 400, icon: '🦖' },
+      { id: 'conrad', name: 'Conrad-class', blurb: 'Two-leg walker.', hp: 4200, atk: 24, reward: 550, icon: '🦴' },
+      { id: 'gutenberg', name: 'Gutenberg-class', blurb: 'Armored tank beast.', hp: 6400, atk: 30, reward: 700, icon: '🛡️' },
+      { id: 'super', name: 'Super Lehmann', blurb: 'City-block hunter.', hp: 9000, atk: 36, reward: 900, icon: '🌋' },
+      { id: 'plant', name: 'Plant Guardian', blurb: 'Nests under Plant 13.', hp: 12000, atk: 42, reward: 1100, icon: '🏭' },
+      { id: 'hring', name: 'Hringhorni Echo', blurb: 'Ghost of the last sortie.', hp: 15500, atk: 48, reward: 1300, icon: '☠️' },
+      { id: 'virm', name: 'VIRM Scout', blurb: 'Not a Klaxosaur.', hp: 19000, atk: 54, reward: 1600, icon: '👾' },
+      { id: 'mothership', name: 'VIRM Mothership', blurb: 'Final hunt.', hp: 26000, atk: 62, reward: 2200, icon: '🛸' }
+    ];
+
+    const SAVE_KEY = 'franxx_command_v2';
+    const TABS = ['hunt', 'summon', 'squad', 'shop', 'battle'];
 
     let currency = 5000;
     let collection = {};
-    let enemyHP = 10000;
-    const enemyMaxHP = 10000;
-    const SAVE_KEY = 'franxx_command_v1';
+    let squad = [];
+    let unlocked = 1;
+    let cleared = {};
+    let lastDaily = '';
+    let crateDay = '';
+    let currentTab = 'hunt';
+    let activeHunt = 0;
+    let enemyHP = 0;
+    let enemyMax = 0;
+    let fighting = false;
+
+    function today() {
+      return new Date().toISOString().slice(0, 10);
+    }
 
     function loadState() {
       try {
-        const raw = localStorage.getItem(SAVE_KEY);
+        const raw = localStorage.getItem(SAVE_KEY) || localStorage.getItem('franxx_command_v1');
         if (!raw) return;
         const data = JSON.parse(raw);
         if (typeof data.currency === 'number') currency = data.currency;
         if (data.collection && typeof data.collection === 'object') collection = data.collection;
-        if (typeof data.enemyHP === 'number') enemyHP = data.enemyHP;
+        if (Array.isArray(data.squad)) squad = data.squad.filter(function (id) { return collection[id]; }).slice(0, 3);
+        if (typeof data.unlocked === 'number') unlocked = data.unlocked;
+        if (data.cleared && typeof data.cleared === 'object') cleared = data.cleared;
+        if (typeof data.lastDaily === 'string') lastDaily = data.lastDaily;
+        if (typeof data.crateDay === 'string') crateDay = data.crateDay;
+        Object.keys(collection).forEach(function (id) {
+          if (!collection[id].level) collection[id].level = 1;
+        });
+        if (!squad.length) squad = Object.keys(collection).slice(0, 3);
       } catch (e) {}
     }
 
     function saveState() {
       try {
-        localStorage.setItem(SAVE_KEY, JSON.stringify({ currency, collection, enemyHP }));
+        localStorage.setItem(SAVE_KEY, JSON.stringify({
+          currency: currency, collection: collection, squad: squad,
+          unlocked: unlocked, cleared: cleared, lastDaily: lastDaily, crateDay: crateDay
+        }));
       } catch (e) {}
     }
 
@@ -350,7 +432,8 @@
       loadState();
       createStars();
       updateUI();
-      updateEnemyHP();
+      renderHunts();
+      renderShop();
     }
 
     function createStars() {
@@ -371,54 +454,198 @@
 
     function updateUI() {
       document.getElementById('currency').textContent = currency;
-      document.getElementById('collection-count').textContent = Object.keys(collection).length + '/' + characters.length;
+      document.getElementById('collection-count').textContent = Object.keys(collection).length + '/' + CHARACTERS.length;
       saveState();
     }
 
     function switchTab(tab) {
-      ['summon', 'collection', 'battle'].forEach(function (t) {
-        document.getElementById('view-' + t).classList.toggle('hidden', t !== tab);
-        document.getElementById('tab-' + t).classList.toggle('active', t === tab);
+      if (fighting && tab !== 'battle') {
+        showToast('Battle in progress');
+        return;
+      }
+      currentTab = tab;
+      TABS.forEach(function (t) {
+        var view = document.getElementById('view-' + t);
+        if (view) view.classList.toggle('hidden', t !== tab);
+        var btn = document.getElementById('tab-' + t);
+        if (btn) btn.classList.toggle('active', t === tab);
       });
-      if (tab === 'collection') renderCollection();
-      if (tab === 'battle') renderBattleSquad();
+      if (tab === 'squad') renderCollection();
+      if (tab === 'hunt') renderHunts();
+      if (tab === 'shop') renderShop();
+      if (tab === 'battle') renderBattle();
+    }
+
+    function liveStats(unit) {
+      var lvl = unit.level || 1;
+      return {
+        atk: unit.atk + (lvl - 1) * 8,
+        def: unit.def + (lvl - 1) * 6,
+        spd: unit.spd + (lvl - 1) * 4,
+        hp: 90 + unit.def * 2 + (lvl - 1) * 14
+      };
+    }
+
+    function pairNames() {
+      var names = [];
+      squad.forEach(function (id) {
+        var u = collection[id];
+        if (u && u.pair && squad.indexOf(u.pair) !== -1 && names.indexOf(u.franxx) === -1) names.push(u.franxx);
+      });
+      return names;
+    }
+
+    function renderHunts() {
+      var box = document.getElementById('hunt-list');
+      box.innerHTML = '';
+      HUNTS.forEach(function (h, i) {
+        var open = i < unlocked;
+        var done = !!cleared[h.id];
+        var btn = document.createElement('button');
+        btn.className = 'hunt' + (open ? ' open' : ' lock') + (done ? ' done' : '');
+        btn.disabled = !open;
+        btn.innerHTML =
+          '<div class="hunt-top"><div class="stage">HUNT 0' + (i + 1) + (done ? ' · CLEARED' : open ? ' · OPEN' : ' · LOCKED') +
+          '</div><div class="reward">◆ ' + h.reward + '</div></div>' +
+          '<h3>' + h.icon + ' ' + h.name + '</h3>' +
+          '<div class="unit">' + h.blurb + ' · ' + h.hp + ' HP</div>';
+        btn.onclick = function () { startHunt(i); };
+        box.appendChild(btn);
+      });
+    }
+
+    function startHunt(i) {
+      if (activeSquad().length === 0) {
+        showToast('Set a squad first');
+        switchTab('squad');
+        return;
+      }
+      activeHunt = i;
+      enemyMax = HUNTS[i].hp;
+      enemyHP = enemyMax;
+      switchTab('battle');
+    }
+
+    function leaveBattle() {
+      if (fighting) return;
+      switchTab('hunt');
+    }
+
+    function activeSquad() {
+      return squad.map(function (id) { return collection[id]; }).filter(Boolean).slice(0, 3);
+    }
+
+    function renderCollection() {
+      var grid = document.getElementById('collection-grid');
+      var units = Object.values(collection);
+      var pairs = pairNames();
+      document.getElementById('pair-line').textContent = pairs.length
+        ? ('SYNC: ' + pairs.join(' + ') + '  (+20% ATK)')
+        : 'No Franxx pair in the active 3.';
+      if (!units.length) {
+        grid.innerHTML = '<div class="empty">No units yet. Pull at the Gate.</div>';
+        return;
+      }
+      grid.innerHTML = '';
+      units.sort(function (a, b) { return b.rarity - a.rarity || b.atk - a.atk; }).forEach(function (char) {
+        var st = liveStats(char);
+        var on = squad.indexOf(char.id) !== -1;
+        var div = document.createElement('div');
+        div.className = 'card r' + char.rarity + (on ? ' on' : '');
+        div.innerHTML =
+          '<div class="count">×' + char.count + ' · Lv' + (char.level || 1) + '</div>' +
+          '<div class="ico">' + char.icon + '</div>' +
+          '<div class="name">' + char.name + '</div>' +
+          '<div class="unit">' + char.franxx + (on ? ' · IN SQUAD' : '') + '</div>' +
+          '<div class="' + (char.rarity === 5 ? 'ssr' : char.rarity === 4 ? 'sr' : 'r') + '">' + '★'.repeat(char.rarity) + '</div>' +
+          '<div class="statrow"><div class="atk">' + st.atk + '</div><div class="def">' + st.def + '</div><div class="spd">' + st.spd + '</div></div>' +
+          '<button class="mini" onclick="toggleSquad(\'' + char.id + '\')">' + (on ? 'BENCH' : 'DEPLOY') + '</button>' +
+          '<button class="mini" style="background:#1e3a8a" onclick="upgradeUnit(\'' + char.id + '\')">UPGRADE ◆ DUP</button>';
+        grid.appendChild(div);
+      });
+    }
+
+    function toggleSquad(id) {
+      var i = squad.indexOf(id);
+      if (i !== -1) squad.splice(i, 1);
+      else if (squad.length < 3) squad.push(id);
+      else showToast('Squad is full (3)');
+      renderCollection();
+      saveState();
+    }
+
+    function upgradeUnit(id) {
+      var u = collection[id];
+      if (!u) return;
+      if ((u.level || 1) >= 5) { showToast('Max level 5'); return; }
+      if (u.count < 2) { showToast('Need a duplicate'); return; }
+      u.count -= 1;
+      u.level = (u.level || 1) + 1;
+      showToast(u.name + ' → Lv' + u.level);
+      updateUI();
+      renderCollection();
+    }
+
+    function renderShop() {
+      var daily = document.getElementById('daily-btn');
+      daily.disabled = lastDaily === today();
+      daily.textContent = lastDaily === today() ? 'CLAIMED' : 'CLAIM';
+    }
+
+    function claimDaily() {
+      if (lastDaily === today()) { showToast('Already claimed today'); return; }
+      lastDaily = today();
+      currency += 600;
+      showToast('+600 ◆ login ration');
+      updateUI();
+      renderShop();
+    }
+
+    function buyCrate() {
+      if (crateDay === today()) { showToast('Crate already taken today'); return; }
+      crateDay = today();
+      currency += 1500;
+      showToast('+1500 ◆ plant crate');
+      updateUI();
+    }
+
+    function scrapOne() {
+      var extra = Object.values(collection).find(function (u) { return u.count > 1; });
+      if (!extra) { showToast('No duplicates to scrap'); return; }
+      extra.count -= 1;
+      currency += 120;
+      showToast('Scrapped a ' + extra.name + ' copy  +120 ◆');
+      updateUI();
+      if (currentTab === 'squad') renderCollection();
     }
 
     function getRarityPool() {
-      const roll = Math.random() * 100;
-      if (roll < 5) return characters.filter(function (c) { return c.rarity === 5; });
-      if (roll < 30) return characters.filter(function (c) { return c.rarity === 4; });
-      return characters.filter(function (c) { return c.rarity === 3; });
+      var roll = Math.random() * 100;
+      if (roll < 5) return CHARACTERS.filter(function (c) { return c.rarity === 5; });
+      if (roll < 30) return CHARACTERS.filter(function (c) { return c.rarity === 4; });
+      return CHARACTERS.filter(function (c) { return c.rarity === 3; });
     }
 
     function pickChar() {
-      const pool = getRarityPool();
+      var pool = getRarityPool();
       return pool[Math.floor(Math.random() * pool.length)];
     }
 
-    function showOverlay(on) {
-      document.getElementById('summon-overlay').classList.toggle('show', on);
-    }
-
     function doSummon(count) {
-      const cost = count === 1 ? 300 : 3000;
-      if (currency < cost) {
-        showToast('Not enough Magma Energy! ◆');
-        return;
-      }
+      var cost = count === 1 ? 300 : 3000;
+      if (currency < cost) { showToast('Not enough Magma Energy'); return; }
       currency -= cost;
       updateUI();
-      showOverlay(true);
+      document.getElementById('summon-overlay').classList.add('show');
       setTimeout(function () {
-        showOverlay(false);
-        if (count === 1) {
-          showResult(pickChar());
-        } else {
-          const results = [];
-          for (let i = 0; i < 11; i++) results.push(pickChar());
+        document.getElementById('summon-overlay').classList.remove('show');
+        if (count === 1) showResult(pickChar());
+        else {
+          var results = [];
+          for (var i = 0; i < 11; i++) results.push(pickChar());
           showMultiResult(results);
         }
-      }, count === 1 ? 1500 : 2000);
+      }, count === 1 ? 1200 : 1800);
     }
 
     function rarityMeta(r) {
@@ -427,9 +654,17 @@
       return { text: 'R', color: '#60a5fa', glow: 'linear-gradient(#3b82f6, transparent)' };
     }
 
+    function addToCollection(char) {
+      if (!collection[char.id]) {
+        collection[char.id] = Object.assign({}, char, { count: 1, level: 1 });
+        if (squad.length < 3) squad.push(char.id);
+      } else collection[char.id].count++;
+      updateUI();
+    }
+
     function showResult(char) {
       addToCollection(char);
-      const meta = rarityMeta(char.rarity);
+      var meta = rarityMeta(char.rarity);
       document.getElementById('result-modal').classList.add('show');
       document.getElementById('result-rarity').textContent = meta.text + ' ' + '★'.repeat(char.rarity);
       document.getElementById('result-rarity').style.color = meta.color;
@@ -447,10 +682,10 @@
     function showMultiResult(results) {
       results.forEach(addToCollection);
       document.getElementById('multi-result-modal').classList.add('show');
-      const grid = document.getElementById('multi-result-grid');
+      var grid = document.getElementById('multi-result-grid');
       grid.innerHTML = '';
       results.forEach(function (char) {
-        const div = document.createElement('div');
+        var div = document.createElement('div');
         div.className = 'card r' + char.rarity;
         div.innerHTML = '<div class="ico" style="font-size:28px">' + char.icon + '</div>' +
           '<div class="name" style="font-size:11px">' + char.name + '</div>' +
@@ -459,116 +694,114 @@
       });
     }
 
-    function closeResult() {
-      document.getElementById('result-modal').classList.remove('show');
-    }
-    function closeMultiResult() {
-      document.getElementById('multi-result-modal').classList.remove('show');
-    }
+    function closeResult() { document.getElementById('result-modal').classList.remove('show'); }
+    function closeMultiResult() { document.getElementById('multi-result-modal').classList.remove('show'); }
 
-    function addToCollection(char) {
-      if (!collection[char.id]) collection[char.id] = Object.assign({}, char, { count: 1 });
-      else collection[char.id].count++;
-      updateUI();
-    }
-
-    function renderCollection() {
-      const grid = document.getElementById('collection-grid');
-      const units = Object.values(collection);
-      if (!units.length) {
-        grid.innerHTML = '<div class="empty">No units summoned yet. Head to the Summon tab!</div>';
-        return;
-      }
-      grid.innerHTML = '';
-      units.forEach(function (char) {
-        const div = document.createElement('div');
-        div.className = 'card r' + char.rarity;
-        div.innerHTML =
-          '<div class="count">×' + char.count + '</div>' +
-          '<div class="ico">' + char.icon + '</div>' +
-          '<div class="name">' + char.name + '</div>' +
-          '<div class="unit">' + char.franxx + '</div>' +
-          '<div class="' + (char.rarity === 5 ? 'ssr' : char.rarity === 4 ? 'sr' : 'r') + '">' + '★'.repeat(char.rarity) + '</div>' +
-          '<div class="statrow"><div class="atk">' + char.atk + '</div><div class="def">' + char.def + '</div><div class="spd">' + char.spd + '</div></div>';
-        grid.appendChild(div);
-      });
-    }
-
-    function renderBattleSquad() {
-      const squad = Object.values(collection).slice(0, 3);
-      const box = document.getElementById('battle-squad');
-      if (!squad.length) {
-        box.innerHTML = '<div class="empty" style="grid-column:1/-1;padding:16px">Summon units to form a squad!</div>';
-        return;
-      }
+    function renderBattle() {
+      var hunt = HUNTS[activeHunt];
+      document.getElementById('battle-title').textContent = hunt.icon + ' ' + hunt.name;
+      document.getElementById('enemy-name').textContent = hunt.name;
+      document.getElementById('enemy-hp').textContent = enemyHP;
+      document.getElementById('enemy-hp-bar').style.width = (100 * enemyHP / enemyMax) + '%';
+      var box = document.getElementById('battle-squad');
+      var team = activeSquad();
       box.innerHTML = '';
-      squad.forEach(function (char) {
-        const div = document.createElement('div');
+      if (!team.length) {
+        box.innerHTML = '<div class="empty" style="grid-column:1/-1;padding:16px">Deploy a squad first</div>';
+        return;
+      }
+      team.forEach(function (char) {
+        var st = liveStats(char);
+        var div = document.createElement('div');
         div.className = 'card r' + char.rarity;
-        div.innerHTML = '<div class="ico" style="font-size:28px">' + char.icon + '</div><div class="name" style="font-size:12px">' + char.name + '</div><div class="unit">' + char.franxx + '</div>';
+        div.innerHTML = '<div class="ico" style="font-size:28px">' + char.icon + '</div><div class="name" style="font-size:12px">' +
+          char.name + '</div><div class="unit">Lv' + (char.level || 1) + ' · ' + st.hp + ' HP</div>';
         box.appendChild(div);
       });
     }
 
     function doBattle() {
-      const squad = Object.values(collection).slice(0, 3);
-      if (!squad.length) { showToast('Summon units first!'); return; }
-      const btn = document.getElementById('battle-btn');
+      var hunt = HUNTS[activeHunt];
+      var team = activeSquad().map(function (c) {
+        var st = liveStats(c);
+        return { char: c, hp: st.hp, max: st.hp, atk: st.atk, def: st.def, spd: st.spd };
+      });
+      if (!team.length) { showToast('Summon and deploy a squad'); return; }
+      if (fighting) return;
+      fighting = true;
+      var btn = document.getElementById('battle-btn');
       btn.disabled = true;
       btn.textContent = '⚔️ BATTLE IN PROGRESS...';
-      const log = document.getElementById('battle-log');
-      log.innerHTML = '<div style="color:#64748b">Battle started! Squad engaging Klaxosaur...</div>';
-      let turn = 0;
-      const maxTurns = 20;
-      const moves = ['Stampede FEVER!', 'Wing Blast!', 'Magma Cannon!', 'Parasite Sync Strike!', 'Franxx Overdrive!'];
+      var log = document.getElementById('battle-log');
+      log.innerHTML = '<div style="color:#64748b">Hunt started — ' + hunt.name + '</div>';
+      var pairs = pairNames();
+      var bonus = pairs.length ? 1.2 : 1;
+      if (pairs.length) log.innerHTML += '<div style="color:#f9a8d4">SYNC BONUS ' + pairs.join(', ') + ' ×1.2 ATK</div>';
+      var moves = ['Stampede FEVER!', 'Wing Blast!', 'Magma Cannon!', 'Parasite Sync Strike!', 'Franxx Overdrive!'];
+      var turn = 0;
 
-      function nextTurn() {
-        if (enemyHP <= 0 || turn >= maxTurns) {
-          if (enemyHP <= 0) {
-            log.innerHTML += '<div style="color:#facc15;font-weight:800">🎉 VICTORY! Klaxosaur defeated!</div>';
-            const reward = 500 + Math.floor(Math.random() * 500);
-            currency += reward;
-            showToast('+' + reward + ' ◆ Magma Energy!');
-            enemyHP = enemyMaxHP;
-            updateUI();
-          } else {
-            log.innerHTML += '<div style="color:#f87171;font-weight:800">💀 DEFEAT... The Klaxosaur survives.</div>';
-          }
-          btn.disabled = false;
-          btn.textContent = '⚔️ INITIATE BATTLE';
-          updateEnemyHP();
-          saveState();
-          return;
+      function finish(win) {
+        fighting = false;
+        btn.disabled = false;
+        btn.textContent = '⚔️ INITIATE BATTLE';
+        if (win) {
+          log.innerHTML += '<div style="color:#facc15;font-weight:800">VICTORY. ' + hunt.name + ' down.</div>';
+          currency += hunt.reward;
+          cleared[hunt.id] = true;
+          if (unlocked < HUNTS.length && activeHunt + 1 >= unlocked) unlocked = activeHunt + 2;
+          if (unlocked > HUNTS.length) unlocked = HUNTS.length;
+          showToast('+' + hunt.reward + ' ◆  hunt cleared');
+          enemyHP = hunt.hp;
+        } else {
+          log.innerHTML += '<div style="color:#f87171;font-weight:800">SQUAD DOWN. Retreat.</div>';
+          enemyHP = hunt.hp;
         }
-        turn++;
-        const char = squad[turn % squad.length];
-        const dmg = Math.floor((char.atk * 2 + Math.random() * 20) * (1 + char.rarity * 0.2));
-        enemyHP = Math.max(0, enemyHP - dmg);
-        const move = moves[Math.floor(Math.random() * moves.length)];
-        log.innerHTML += '<div><span style="color:#f9a8d4">' + char.name + '</span> uses <span style="color:#fde047">' + move + '</span> → <span style="color:#f87171">-' + dmg + '</span> HP</div>';
+        updateUI();
+        renderBattle();
         log.scrollTop = log.scrollHeight;
-        updateEnemyHP();
-        setTimeout(nextTurn, 600);
       }
-      setTimeout(nextTurn, 500);
-    }
 
-    function updateEnemyHP() {
-      document.getElementById('enemy-hp').textContent = enemyHP;
-      document.getElementById('enemy-hp-bar').style.width = ((enemyHP / enemyMaxHP) * 100) + '%';
+      function next() {
+        var alive = team.filter(function (u) { return u.hp > 0; });
+        if (enemyHP <= 0) { finish(true); return; }
+        if (!alive.length || turn >= 24) { finish(false); return; }
+        turn++;
+        var actor = alive[turn % alive.length];
+        var dmg = Math.floor((actor.atk * 2.2 + Math.random() * 24) * (1 + actor.char.rarity * 0.12) * bonus);
+        enemyHP = Math.max(0, enemyHP - dmg);
+        log.innerHTML += '<div><span style="color:#f9a8d4">' + actor.char.name + '</span> uses <span style="color:#fde047">' +
+          moves[Math.floor(Math.random() * moves.length)] + '</span> → <span style="color:#f87171">-' + dmg + '</span></div>';
+        document.getElementById('enemy-hp').textContent = enemyHP;
+        document.getElementById('enemy-hp-bar').style.width = (100 * enemyHP / enemyMax) + '%';
+
+        if (enemyHP > 0) {
+          var victim = alive[Math.floor(Math.random() * alive.length)];
+          var incoming = Math.max(8, hunt.atk + Math.floor(Math.random() * 16) - Math.floor(victim.def * 0.15));
+          victim.hp = Math.max(0, victim.hp - incoming);
+          log.innerHTML += '<div style="color:#fda4af">' + hunt.name + ' hits ' + victim.char.name + ' −' + incoming +
+            ' (' + victim.hp + '/' + victim.max + ')</div>';
+        }
+        log.scrollTop = log.scrollHeight;
+        setTimeout(next, 520);
+      }
+      next();
     }
 
     function showToast(msg) {
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.classList.add('show');
-      setTimeout(function () { t.classList.remove('show'); }, 2000);
+      var el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(function () { el.classList.remove('show'); }, 1800);
     }
 
     window.androidBack = function () {
       if (document.getElementById('result-modal').classList.contains('show')) { closeResult(); return true; }
       if (document.getElementById('multi-result-modal').classList.contains('show')) { closeMultiResult(); return true; }
       if (document.getElementById('summon-overlay').classList.contains('show')) return true;
+      if (fighting) return true;
+      if (currentTab === 'battle') { switchTab('hunt'); return true; }
+      if (currentTab !== 'hunt') { switchTab('hunt'); return true; }
       return false;
     };
 
